@@ -16,19 +16,19 @@ public class PersonaController {
 
     private final PersonaService personaService;
 
-    // Endpoint 1 - Crear persona
+    // 1 - Crear nueva persona
     @PostMapping
     public ResponseEntity<PersonaResponseDTO> crearPersona(@Valid @RequestBody PersonaRequestDTO dto) {
         return ResponseEntity.ok(personaService.crearPersona(dto));
     }
 
-    // Endpoint 2 - Obtener persona por DNI
+    // 2 - Consultar persona por DNI
     @GetMapping("/{dni}")
     public ResponseEntity<PersonaResponseDTO> obtenerPorDni(@PathVariable String dni) {
         return ResponseEntity.ok(personaService.obtenerPorDni(dni));
     }
 
-    // Endpoint 3 - Actualizar nombres y apellidos
+    // 3 - Actualizar nombres y apellidos
     @PutMapping("/{dni}/nombres")
     public ResponseEntity<PersonaResponseDTO> actualizarNombres(
             @PathVariable String dni,
@@ -36,7 +36,7 @@ public class PersonaController {
         return ResponseEntity.ok(personaService.actualizarNombres(dni, dto));
     }
 
-    // Endpoint 4 - Actualizar padres
+    // 4 - Registrar o actualizar padres
     @PutMapping("/{dni}/padres")
     public ResponseEntity<PersonaResponseDTO> actualizarPadres(
             @PathVariable String dni,
@@ -44,18 +44,26 @@ public class PersonaController {
         return ResponseEntity.ok(personaService.actualizarPadres(dni, dto));
     }
 
-    // Endpoint 5 - Eliminar persona (solo si no tiene descendientes)
+    // 5 - Eliminar persona (si no tiene descendientes)
     @DeleteMapping("/{dni}")
     public ResponseEntity<Void> eliminar(@PathVariable String dni) {
         personaService.eliminar(dni);
         return ResponseEntity.noContent().build();
     }
 
-    // Endpoint 6 - Listar personas (con filtros opcionales)
+    // 6 - Listar personas con filtros opcionales
     @GetMapping
     public ResponseEntity<List<PersonaResponseDTO>> listarTodos(
             @RequestParam(required = false) String nombre,
             @RequestParam(required = false, name = "estado-civil") String estadoCivil) {
         return ResponseEntity.ok(personaService.listarTodos(nombre, estadoCivil));
+    }
+
+    // 10 - Actualizar estado civil
+    @PutMapping("/{dni}/estado-civil")
+    public ResponseEntity<PersonaResponseDTO> actualizarEstadoCivil(
+            @PathVariable String dni,
+            @RequestBody @Valid PersonaEstadoCivilDTO dto) {
+        return ResponseEntity.ok(personaService.actualizarEstadoCivil(dni, dto));
     }
 }

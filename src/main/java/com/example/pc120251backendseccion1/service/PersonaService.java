@@ -1,6 +1,7 @@
 package com.example.pc120251backendseccion1.service;
 
 import com.example.pc120251backendseccion1.dto.*;
+import com.example.pc120251backendseccion1.model.EstadoCivil;
 import com.example.pc120251backendseccion1.model.Persona;
 import com.example.pc120251backendseccion1.repository.PersonaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -70,7 +71,8 @@ public class PersonaService {
         if (nombre != null) {
             personas = personaRepository.findByNombresContainingIgnoreCase(nombre);
         } else if (estadoCivilStr != null) {
-            personas = personaRepository.findByEstadoCivil(Enum.valueOf(com.example.pc120251backendseccion1.model.EstadoCivil.class, estadoCivilStr.toUpperCase()));
+            personas = personaRepository.findByEstadoCivil(
+                    EstadoCivil.valueOf(estadoCivilStr.toUpperCase()));
         } else {
             personas = personaRepository.findAll();
         }
@@ -83,16 +85,22 @@ public class PersonaService {
                 .orElseThrow(() -> new EntityNotFoundException("Persona no encontrada"));
 
         boolean tieneDescendientes = personaRepository.findAll().stream()
-                .anyMatch(p -> {
-                    return (p.getPadre() != null && p.getPadre().getDni().equals(dni)) ||
-                            (p.getMadre() != null && p.getMadre().getDni().equals(dni));
-                });
+                .anyMatch(p -> (p.getPadre() != null && p.getPadre().getDni().equals(dni)) ||
+                        (p.getMadre() != null && p.getMadre().getDni().equals(dni)));
 
         if (tieneDescendientes) {
             throw new IllegalStateException("No se puede eliminar: tiene descendientes registrados.");
         }
 
         personaRepository.delete(persona);
+    }
+
+    public PersonaResponseDTO actualizarEstadoCivil(String dni, PersonaEstadoCivilDTO dto) {
+        Persona persona = personaRepository.findByDni(dni)
+                .orElseThrow(() -> new EntityNotFoundException("Persona no encontrada"));
+
+        persona.setEstadoCivil(dto.getNuevoEstadoCivil());
+        return toResponse(personaRepository.save(persona));
     }
 
     private PersonaResponseDTO toResponse(Persona p) {
