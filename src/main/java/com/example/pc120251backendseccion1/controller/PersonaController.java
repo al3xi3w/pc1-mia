@@ -59,6 +59,12 @@ public class PersonaController {
         return ResponseEntity.ok(personaService.listarTodos(nombre, estadoCivil));
     }
 
+    // 9 - Árbol familiar hasta abuelos
+    @GetMapping("/{dni}/familia")
+    public ResponseEntity<FamiliaResponseDTO> obtenerFamilia(@PathVariable String dni) {
+        return ResponseEntity.ok(personaService.obtenerFamilia(dni));
+    }
+
     // 10 - Actualizar estado civil
     @PutMapping("/{dni}/estado-civil")
     public ResponseEntity<PersonaResponseDTO> actualizarEstadoCivil(

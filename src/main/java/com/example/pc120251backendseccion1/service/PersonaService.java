@@ -103,6 +103,23 @@ public class PersonaService {
         return toResponse(personaRepository.save(persona));
     }
 
+    public FamiliaResponseDTO obtenerFamilia(String dni) {
+        Persona persona = personaRepository.findByDni(dni)
+                .orElseThrow(() -> new EntityNotFoundException("Persona no encontrada"));
+
+        Persona padre = persona.getPadre();
+        Persona madre = persona.getMadre();
+
+        return FamiliaResponseDTO.builder()
+                .padre(padre != null ? toResponse(padre) : null)
+                .madre(madre != null ? toResponse(madre) : null)
+                .abueloPaterno(padre != null && padre.getPadre() != null ? toResponse(padre.getPadre()) : null)
+                .abuelaPaterna(padre != null && padre.getMadre() != null ? toResponse(padre.getMadre()) : null)
+                .abueloMaterno(madre != null && madre.getPadre() != null ? toResponse(madre.getPadre()) : null)
+                .abuelaMaterna(madre != null && madre.getMadre() != null ? toResponse(madre.getMadre()) : null)
+                .build();
+    }
+
     private PersonaResponseDTO toResponse(Persona p) {
         return PersonaResponseDTO.builder()
                 .dni(p.getDni())
