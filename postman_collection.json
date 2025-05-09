@@ -1,0 +1,495 @@
+{
+  "info": {
+    "_postman_id": "d4fa0c47-8296-42da-9766-92ce6a298e79",
+    "name": "RENIEC - Sistema de Gestión Familiar Backend",
+    "description": "API para gestión de registro, consulta y validación de relaciones familiares entre personas",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "34026023",
+    "_collection_link": "https://alejandroen-team.postman.co/workspace/pc1-20251-backend~b74e8a4e-21d0-404b-86a6-e5909db6c67d/collection/34026023-d4fa0c47-8296-42da-9766-92ce6a298e79?action=share&source=collection_link&creator=34026023"
+  },
+  "item": [
+    {
+      "name": "Personas",
+      "item": [
+        {
+          "name": "Crear persona",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/personas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "personas"
+              ]
+            },
+            "description": "Crear una nueva persona en el sistema. Roles permitidos: ADMIN, REGISTRADOR."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener persona por DNI",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/personas/:dni",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "personas",
+                ":dni"
+              ],
+              "variable": [
+                {
+                  "key": "dni",
+                  "value": "",
+                  "description": "DNI de la persona a consultar"
+                }
+              ]
+            },
+            "description": "Consultar todos los datos de una persona por su DNI. Roles permitidos: ADMIN, REGISTRADOR, CONSULTOR."
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar nombres y apellidos",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/personas/:dni/nombres",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "personas",
+                ":dni",
+                "nombres"
+              ],
+              "variable": [
+                {
+                  "key": "dni",
+                  "value": "",
+                  "description": "DNI de la persona a actualizar"
+                }
+              ]
+            },
+            "description": "Actualizar solamente nombres y apellidos de una persona. Roles permitidos: ADMIN, REGISTRADOR."
+          },
+          "response": []
+        },
+        {
+          "name": "Registrar padres",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/personas/:dni/padres",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "personas",
+                ":dni",
+                "padres"
+              ],
+              "variable": [
+                {
+                  "key": "dni",
+                  "value": "",
+                  "description": "DNI de la persona a la que se registrarán los padres"
+                }
+              ]
+            },
+            "description": "Registrar o actualizar datos de los padres de una persona. Roles permitidos: ADMIN, REGISTRADOR."
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar persona",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/personas/:dni",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "personas",
+                ":dni"
+              ],
+              "variable": [
+                {
+                  "key": "dni",
+                  "value": "",
+                  "description": "DNI de la persona a eliminar"
+                }
+              ]
+            },
+            "description": "Eliminar una persona del sistema (si no tiene descendientes). Roles permitidos: ADMIN."
+          },
+          "response": []
+        },
+        {
+          "name": "Listar personas con filtros",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/personas?nombre=&estadoCivil=",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "personas"
+              ],
+              "query": [
+                {
+                  "key": "nombre",
+                  "value": "",
+                  "description": "Filtro opcional por nombre"
+                },
+                {
+                  "key": "estadoCivil",
+                  "value": "",
+                  "description": "Filtro opcional por estado civil"
+                }
+              ]
+            },
+            "description": "Listar todas las personas, con filtros opcionales por nombre o estado civil. Roles permitidos: ADMIN, REGISTRADOR, CONSULTOR."
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar estado civil",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/personas/:dni/estado-civil",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "personas",
+                ":dni",
+                "estado-civil"
+              ],
+              "variable": [
+                {
+                  "key": "dni",
+                  "value": "",
+                  "description": "DNI de la persona a actualizar estado civil"
+                }
+              ]
+            },
+            "description": "Actualizar el estado civil de una persona. Roles permitidos: ADMIN, REGISTRADOR."
+          },
+          "response": []
+        },
+        {
+          "name": "Consultar árbol familiar",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/personas/:dni/familia",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "personas",
+                ":dni",
+                "familia"
+              ],
+              "variable": [
+                {
+                  "key": "dni",
+                  "value": "",
+                  "description": "DNI de la persona a consultar su árbol familiar"
+                }
+              ]
+            },
+            "description": "Consultar árbol familiar de una persona hasta sus abuelos. Roles permitidos: ADMIN, REGISTRADOR, CONSULTOR."
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints para la gestión de personas"
+    },
+    {
+      "name": "Matrimonios",
+      "item": [
+        {
+          "name": "Registrar matrimonio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/matrimonios",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "matrimonios"
+              ]
+            },
+            "description": "Registrar matrimonio entre dos personas previa validación. Roles permitidos: ADMIN, REGISTRADOR."
+          },
+          "response": []
+        },
+        {
+          "name": "Validar impedimentos matrimoniales",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/matrimonios/validar/:dni1/:dni2",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "matrimonios",
+                "validar",
+                ":dni1",
+                ":dni2"
+              ],
+              "variable": [
+                {
+                  "key": "dni1",
+                  "value": "",
+                  "description": "DNI de la primera persona"
+                },
+                {
+                  "key": "dni2",
+                  "value": "",
+                  "description": "DNI de la segunda persona"
+                }
+              ]
+            },
+            "description": "Verificar impedimentos matrimoniales entre dos personas. Roles permitidos: ADMIN, REGISTRADOR, CONSULTOR."
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints para gestión y validación de matrimonios"
+    },
+    {
+      "name": "Autenticación",
+      "item": [
+        {
+          "name": "Registrar usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Registrar un nuevo usuario en el sistema. Roles permitidos: ADMIN."
+          },
+          "response": []
+        },
+        {
+          "name": "Iniciar sesión",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Iniciar sesión y obtener un token JWT. Roles permitidos: PUBLIC."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener perfil de usuario",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            },
+            "description": "Obtener la información del usuario autenticado actual. Roles permitidos: ADMIN, REGISTRADOR, CONSULTOR."
+          },
+          "response": []
+        },
+        {
+          "name": "Cambiar contraseña",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/change-password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "change-password"
+              ]
+            },
+            "description": "Cambiar la contraseña del usuario actual. Roles permitidos: ADMIN, REGISTRADOR, CONSULTOR."
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints para gestión de autenticación y usuarios"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
